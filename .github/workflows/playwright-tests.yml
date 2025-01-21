@@ -28,11 +28,13 @@ jobs:
       - name: Install dependencies
         run: npm install --unsafe-perm=true --allow-root
 
-      # Install Playwright and Browsers
+      - name: Fix Playwright Permissions
+        run: chmod -R +x ./node_modules/.bin
+
       - name: Install Playwright and Browsers
         run: |
           npm install playwright --save-dev
-          npx playwright install
+          ./node_modules/.bin/playwright install
 
       - name: Run Playwright tests
         run: |
@@ -58,21 +60,3 @@ jobs:
         with:
           name: AIT-Playwright-HTML-Report
           path: playwright-report/
-
-      - name: Run Accessibility Tests
-        run: |
-          CI=true ./node_modules/.bin/playwright test --reporter=html --grep "Accessibility Testing Suite" || echo "Accessibility tests failed, review logs."
-
-          # Always check if the report directory exists for accessibility tests
-          if [ -d accessibility-reports ]; then
-            echo "artifact_exists=true" >> $GITHUB_ENV
-          else
-            echo "artifact_exists=false" >> $GITHUB_ENV
-          fi
-
-      - name: Upload Accessibility Reports
-        if: env.artifact_exists == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: AIT-Playwright-Accessibility-Reports
-          path: reports/
