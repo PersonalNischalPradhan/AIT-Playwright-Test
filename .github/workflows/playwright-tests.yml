@@ -28,8 +28,11 @@ jobs:
       - name: Install dependencies
         run: npm install --unsafe-perm=true --allow-root
 
+      # Install Playwright directly through npm instead of npx
       - name: Install Playwright Browsers
-        run: sudo npx playwright install
+        run: |
+          npm install playwright
+          npx playwright install
 
       - name: Run Playwright tests
         run: |
