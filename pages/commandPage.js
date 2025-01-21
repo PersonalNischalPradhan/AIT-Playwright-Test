@@ -1,0 +1,85 @@
+const LoginPage = require('./loginPage');
+const HomePage = require('./homePage');
+const AdminPage = require('./adminPage');
+const BookingPage = require('./bookingPage');
+
+class CommandPage {
+  constructor(page) {
+    this.page = page;
+
+    // Login Page Selectors
+    this.usernameInput = '#username'; 
+    this.passwordInput = '#password';
+    this.loginButton = '#doLogin';
+    this.loginErrorText = '.alert-danger';
+
+    // Home Page Selectors
+    this.inventoryItemName = '.row.room-name';
+    this.inventoryItemPrice = '.row .room-price';
+    this.roomBookButton = '.row .book-room';
+
+    // Your Cart Page Selectors
+    this.proceedToCheckoutButton = '.checkout';
+
+    // Checkout Page Selectors
+    this.paymentDetailsFN = '#firstName';
+    this.paymentDetailsLN = '#lastName';
+    this.paymentDetailsPC = '#email';
+    this.confirmBookingButton = '#confirmBooking';
+
+    // Order Confirmation Page Selectors
+    this.orderConfirmationMessage = '.success';
+
+    // Room Creation Selectors
+    this.letMeHackButton = 'button:has-text("Let me hack!")'; 
+    this.roomNumberInput = '#roomName'; 
+    this.roomTypeDropdown = '#type'; 
+    this.roomAccessibleDropdown = '#accessible'; 
+    this.roomPriceInput = '#roomPrice'; 
+    this.roomFeaturesInput = '#features'; 
+    this.saveRoomButton = 'button#saveRoom'; 
+    this.createRoomButton = 'button#createRoom'; 
+
+    // Room Features Checkboxes
+    this.featureWiFi = '#wifiCheckbox'; 
+    this.featureTV = '#tvCheckbox'; 
+    this.featureRadio = '#radioCheckbox'; 
+    this.featureRefreshments = '#refreshmentsCheckbox'; 
+    this.featureSafe = '#safeCheckbox'; 
+    this.featureViews = '#viewsCheckbox'; 
+
+    // Selectors for the booking page
+    this.bookingFirstNameInput = 'input[name="firstname"]';
+    this.bookingLastnameInput = 'input[name="lastname"]';
+    this.bookingEmailInput = 'input[name="email"]';
+    this.bookingPhone = 'input[name="phone"]';
+    this.bookingDateInput = 'input[name="bookingDate"]';
+    this.submitBookingButton = 'button.book-room';
+    this.confirmationMessage = '.confirmation-message';
+    this.errorMessages = '.alert.alert-danger p';
+
+
+    
+    // Initialize pages
+    this.loginPage = new LoginPage(page, this);
+    this.homePage = new HomePage(page, this);
+    this.adminPage = new AdminPage(page, this);
+    this.bookingPage= new BookingPage(page,this);
+
+    // Booking Page Selectors
+    this.bookingFirstNameInput = 'input[name="firstname"]';
+    this.bookingLastnameInput = 'input[name="lastname"]';
+    this.bookingEmailInput = 'input[name="email"]';
+    this.bookingPhone = 'input[name="phone"]';
+    this.bookingDateInput = 'input[name="bookingDate"]';
+    this.submitBookingButton = 'button.book-room';
+    this.confirmationMessage = '.confirmation-message';
+    this.errorMessages = '.alert.alert-danger p';
+
+    // Booking page URL
+    this.bookingPageUrl = 'https://automationintesting.online';  // Update this URL
+
+  }
+}
+
+module.exports = CommandPage;
