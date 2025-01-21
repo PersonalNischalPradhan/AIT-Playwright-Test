@@ -1,4 +1,3 @@
-
 const { test, expect } = require('@playwright/test');
 const CommandPage = require('../pages/commandPage');
 const LoginPage = require('../pages/loginPage');
@@ -14,110 +13,82 @@ test.describe('Room Booking Suite', () => {
     const adminPage = new AdminPage(page, commandPage);
 
     // Step 1: Navigate to the booking page
-    await page.goto(bookingPageProperties.urls.bookingPage);
+    await page.goto(bookingPageProperties.urls.bookingPageUrl);
     await adminPage.enableHacking();
 
     // Step 2: Attempt to book the first room
     const bookThisRoomButton = await page.locator('button:has-text("Book this room")').first();
-
-
-
     await bookThisRoomButton.click();
 
     const confirmBookButton = page.locator('button.book-room.btn-outline-primary');
+    await confirmBookButton.scrollIntoViewIfNeeded();
+    await confirmBookButton.click({ force: true });
 
-    const text = await confirmBookButton.textContent();
-    console.log('This will print the text content of the confirmBookButton' + text);  // This will print the text content of the confirmBookButton
-
-    await confirmBookButton.scrollIntoViewIfNeeded();  // Scroll to the button
-
-
-    // Step 3: Fill in booking details (only partially or skip required fields to simulate error)
+    // Step 3: Fill in booking details with missing fields
     const bookingFirstNameInput = await page.locator('input[name="firstname"]');
     const bookingLastnameInput = await page.locator('input[name="lastname"]');
     const bookingEmailInput = await page.locator('input[name="email"]');
     const bookingPhone = await page.locator('input[name="phone"]');
 
-    // Fill only partial information to trigger errors
-    await bookingFirstNameInput.fill('Johnyytest123');
-    await bookingLastnameInput.fill('Chamlingtest123'); // Leave last name empty
-    await bookingEmailInput.scrollIntoViewIfNeeded();
-    await bookingEmailInput.fill('johncham@tets.com'); // Leave email empty
-    await bookingPhone.fill('0304040505'); // Leave phone empty
+    // Use details from the properties file
+    await bookingFirstNameInput.fill(bookingPageProperties.bookingDetails.firstName);
+    await bookingLastnameInput.fill(bookingPageProperties.bookingDetails.lastName);
+    await bookingEmailInput.fill(bookingPageProperties.bookingDetails.email);
+    await bookingPhone.fill(bookingPageProperties.bookingDetails.phone);
 
-    // Step 4: Click the second "Book" button
-    await page.waitForTimeout(10000); // Wait for 10 seconds
+    // Step 4: Wait for error messages and verify
+    await page.waitForTimeout(2000); // Adjust wait time if needed
 
-    await confirmBookButton.click({ force: true });
-
-    await page.waitForTimeout(1000); // Wait for 10 seconds
-
-    console.log('confirm button is clicked');
-
-    // Step 5: Verify error messages
-    await page.waitForTimeout(2000); // Wait for errors to display
     const errorMessages = await page.locator('.alert.alert-danger p').allTextContents();
+    console.log('Error Messages:', errorMessages);
 
-    console.log('Error Messages:', errorMessages); // Debugging output
-
-    // Assert error messages exist and match expected
+    // Assert error messages exist and match expectations
     expect(errorMessages.length).toBeGreaterThan(0); // At least one error message must exist
-
-    // Validate that error messages contain 'must not be null' and 'size must be between 11 and 21'
     expect(errorMessages).toContain('must not be null');
     expect(errorMessages).toContain('size must be between 11 and 21');
-
-
   });
 
-  test('Book a room using the unique room number and cancel at the end', async ({ page }) => {
+  test('Book a room and cancel at the end', async ({ page }, testInfo) => {
+    testInfo.annotations.push({ type: 'feature', description: 'Room Booking' }); // Allure label
+    testInfo.annotations.push({ type: 'severity', description: 'minor' });
+
     const commandPage = new CommandPage(page);
     const loginPage = new LoginPage(page, commandPage);
     const homePage = new HomePage(page, commandPage);
     const adminPage = new AdminPage(page, commandPage);
 
-    // Step 1: Navigate to the booking page
-    await page.goto(bookingPageProperties.urls.bookingPage);
-    await adminPage.enableHacking();
+    await test.step('Navigate to the booking page and enable hacking', async () => {
+      await page.goto(bookingPageProperties.urls.bookingPageUrl);
+      await adminPage.enableHacking();
+    });
 
-    // Step 2: Attempt to book the first room
-    const bookThisRoomButton = await page.locator('button:has-text("Book this room")').first();
+    await test.step('Attempt to book the first room', async () => {
+      const bookThisRoomButton = await page.locator('button:has-text("Book this room")').first();
+      await bookThisRoomButton.click();
+    });
 
-
-
-    await bookThisRoomButton.click();
-
-    const cancelButton = page.locator('button.book-room.btn-outline-danger');
-
-
-    const text = await cancelButton.textContent();
-    console.log('This will print the text content of the cancelButton' + text);  // This will print the text content of the confirmBookButton
-
-    await cancelButton.scrollIntoViewIfNeeded();  // Scroll to the button
-
-
-    // Step 3: Fill in booking details (only partially or skip required fields to simulate error)
+    // Step 3: Fill in booking details with missing fields
     const bookingFirstNameInput = await page.locator('input[name="firstname"]');
     const bookingLastnameInput = await page.locator('input[name="lastname"]');
     const bookingEmailInput = await page.locator('input[name="email"]');
     const bookingPhone = await page.locator('input[name="phone"]');
 
-    // Fill only partial information to trigger errors
-    await bookingFirstNameInput.fill('Johnyytest123');
-    await bookingLastnameInput.fill('Chamlingtest123'); // Leave last name empty
-    await bookingEmailInput.scrollIntoViewIfNeeded();
-    await bookingEmailInput.fill('johncham@tets.com'); // Leave email empty
-    await bookingPhone.fill('0304040505'); // Leave phone empty
+    // Use details from the properties file
+    await bookingFirstNameInput.fill(bookingPageProperties.bookingDetails.firstName);
+    await bookingLastnameInput.fill(bookingPageProperties.bookingDetails.lastName);
+    await bookingEmailInput.fill(bookingPageProperties.bookingDetails.email);
+    await bookingPhone.fill(bookingPageProperties.bookingDetails.phone);
 
-    // Step 4: Click the second "Book" button
-    await page.waitForTimeout(10000); // Wait for 10 seconds
+    // Step 4: Wait for error messages and verify
+    await page.waitForTimeout(2000); // Adjust wait time if needed
 
-    await cancelButton.click({ force: true });
+    await test.step('Cancel booking', async () => {
+      const cancelButton = page.locator('button.book-room.btn-outline-danger');
+      const text = await cancelButton.textContent();
+      console.log('Cancel Button Text:', text);
 
-    await page.waitForTimeout(1000); // Wait for 10 seconds
-
-    console.log('cancelButton  is clicked');
-
+      await cancelButton.scrollIntoViewIfNeeded();
+      await cancelButton.click({ force: true });
+    });
   });
-})
-
+});

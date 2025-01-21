@@ -76,8 +76,6 @@ class CommandPage {
     this.confirmationMessage = '.confirmation-message';
     this.errorMessages = '.alert.alert-danger p';
 
-    // Booking page URL
-    this.bookingPageUrl = 'https://automationintesting.online';  // Update this URL
 
   }
 }

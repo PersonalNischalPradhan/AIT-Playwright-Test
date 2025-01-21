@@ -6,7 +6,7 @@ test.describe('Admin Login Suite', () => {
 
     test.beforeEach(async ({ page }) => {
         const commandPage = new CommandPage(page); // instantiate CommandPage
-        await page.goto(adminPageProperties.urls.adminPage);
+        await page.goto(adminPageProperties.urls.adminPageURL);
     });
 
     test('Login with valid username and valid password', async ({ page }) => {

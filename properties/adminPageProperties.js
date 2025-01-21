@@ -1,6 +1,6 @@
 module.exports = {
     urls: {
-        adminPage: 'https://automationintesting.online/#/admin',
+        adminPageURL: 'https://automationintesting.online/#/admin',
     },
     credentials: {
         correctUsername: 'admin',

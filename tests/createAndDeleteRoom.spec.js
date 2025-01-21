@@ -13,7 +13,7 @@ test.describe('Admin Room Management Suite', () => {
         const adminPage = new AdminPage(page, commandPage);
 
         // Step 1: Navigate to admin page and enable hacking
-        await page.goto(adminPageProperties.urls.adminPage);
+        await page.goto(adminPageProperties.urls.adminPageURL);
         await adminPage.enableHacking();
 
         // Step 2: Log in as admin
