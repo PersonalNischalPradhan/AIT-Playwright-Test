@@ -22,11 +22,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+
       - name: Install dependencies
-        run: npm install
+        run: npm install --unsafe-perm=true --allow-root
 
       - name: Install Playwright Browsers
-        run: npx playwright install
+        run: sudo npx playwright install
 
       - name: Run Playwright tests
         run: |
@@ -77,4 +80,3 @@ jobs:
         with:
           name: AIT-Playwright-Accessibility-Reports
           path: reports/
-
