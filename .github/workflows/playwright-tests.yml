@@ -1,0 +1,80 @@
+name: AIT Playwright Tests
+
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
+    branches:
+      - dev
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright Browsers
+        run: npx playwright install
+
+      - name: Run Playwright tests
+        run: |
+          CI=true npx playwright test --reporter=html,allure-playwright || echo "Tests failed, review logs."
+          
+          # Always check if the report directory exists
+          if [ -d playwright-report ]; then
+            echo "artifact_exists=true" >> $GITHUB_ENV
+          else
+            echo "artifact_exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: Upload Test Artifacts
+        if: env.artifact_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AIT-Playwright-Test-Artifacts
+          path: test-results/
+
+      - name: Upload HTML Report
+        if: env.artifact_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AIT-Playwright-HTML-Report
+          path: playwright-report/
+
+      - name: Upload Allure Results
+        if: env.artifact_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AIT-Playwright-Allure-Results
+          path: test-results/allure-results/
+
+      - name: Run Accessibility Tests
+        run: |
+          CI=true npx playwright test --reporter=html,allure-playwright --project=Chromium --grep "Accessibility Testing Suite" || echo "Accessibility tests failed, review logs."
+
+          # Always check if the report directory exists for accessibility tests
+          if [ -d accessibility-reports ]; then
+            echo "artifact_exists=true" >> $GITHUB_ENV
+          else
+            echo "artifact_exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: Upload Accessibility Reports
+        if: env.artifact_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AIT-Playwright-Accessibility-Reports
+          path: reports/
+
