@@ -18,18 +18,6 @@ class CommandPage {
     this.inventoryItemPrice = '.row .room-price';
     this.roomBookButton = '.row .book-room';
 
-    // Your Cart Page Selectors
-    this.proceedToCheckoutButton = '.checkout';
-
-    // Checkout Page Selectors
-    this.paymentDetailsFN = '#firstName';
-    this.paymentDetailsLN = '#lastName';
-    this.paymentDetailsPC = '#email';
-    this.confirmBookingButton = '#confirmBooking';
-
-    // Order Confirmation Page Selectors
-    this.orderConfirmationMessage = '.success';
-
     // Room Creation Selectors
     this.letMeHackButton = 'button:has-text("Let me hack!")'; 
     this.roomNumberInput = '#roomName'; 
@@ -57,6 +45,9 @@ class CommandPage {
     this.submitBookingButton = 'button.book-room';
     this.confirmationMessage = '.confirmation-message';
     this.errorMessages = '.alert.alert-danger p';
+    this.bookThisRoomButton  = 'button:has-text("Book this room")';
+    this.confirmBookButton ='button.book-room.btn-outline-primary';
+    this.cancelBookButton ='button.book-room.btn-outline-danger';
 
 
     
@@ -66,15 +57,6 @@ class CommandPage {
     this.adminPage = new AdminPage(page, this);
     this.bookingPage= new BookingPage(page,this);
 
-    // Booking Page Selectors
-    this.bookingFirstNameInput = 'input[name="firstname"]';
-    this.bookingLastnameInput = 'input[name="lastname"]';
-    this.bookingEmailInput = 'input[name="email"]';
-    this.bookingPhone = 'input[name="phone"]';
-    this.bookingDateInput = 'input[name="bookingDate"]';
-    this.submitBookingButton = 'button.book-room';
-    this.confirmationMessage = '.confirmation-message';
-    this.errorMessages = '.alert.alert-danger p';
 
 
   }
