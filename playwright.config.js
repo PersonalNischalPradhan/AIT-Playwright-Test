@@ -4,7 +4,7 @@ module.exports = defineConfig({
   timeout: 30000, // Global timeout for tests
   retries: 0, // Retry failed tests
   use: {
-    headless: false, // Run tests in headless mode
+    headless: process.env.CI === 'true' ? true : false, // Set headless mode based on ci environment github/local
     viewport: { width: 1280, height: 720 }, // Default viewport
     ignoreHTTPSErrors: true, // Ignore HTTPS errors
     screenshot: 'only-on-failure', // Take screenshots only on test failure
