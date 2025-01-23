@@ -22,37 +22,21 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Clear npm cache
-        run: npm cache clean --force
-
       - name: Install dependencies
         run: npm install --unsafe-perm=true --allow-root
 
-      - name: Fix Playwright Permissions
-        run: chmod -R +x ./node_modules/.bin
-
       - name: Install Playwright and Browsers
-        run: |
-          npm install playwright --save-dev
-          ./node_modules/.bin/playwright install
+        run: ./node_modules/.bin/playwright install --with-deps
 
       - name: Run Playwright tests
         run: |
           CI=true ./node_modules/.bin/playwright test --reporter=html || echo "Tests failed, review logs."
 
-          # Always check if the report directory exists
           if [ -d playwright-report ]; then
             echo "artifact_exists=true" >> $GITHUB_ENV
           else
             echo "artifact_exists=false" >> $GITHUB_ENV
           fi
-
-      - name: Upload Test Artifacts
-        if: env.artifact_exists == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: AIT-Playwright-Test-Artifacts
-          path: test-results/
 
       - name: Upload HTML Report
         if: env.artifact_exists == 'true'
@@ -60,3 +44,10 @@ jobs:
         with:
           name: AIT-Playwright-HTML-Report
           path: playwright-report/
+
+      - name: Upload Test Artifacts
+        if: env.artifact_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Playwright-Trace-Artifacts
+          path: playwright-report/*

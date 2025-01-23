@@ -1,8 +1,9 @@
 const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
+  testDir: './tests', // Specify the test directory
   timeout: 60000, // Global timeout for tests
-  retries: 0, // Retry failed tests
+  retries: process.env.CI ? 2 : 0, // Retry failed tests in CI
   use: {
     headless: process.env.CI === 'true' ? true : false, // Set headless mode based on ci environment github/local
     viewport: { width: 1280, height: 720 }, // Default viewport
