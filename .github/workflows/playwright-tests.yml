@@ -14,40 +14,56 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      #  Set up Node.js environment
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20'
 
+      # Clear npm cache
+      - name: Clear npm cache
+        run: npm cache clean --force
+
+      # Install dependencies
       - name: Install dependencies
         run: npm install --unsafe-perm=true --allow-root
 
+      #  Fix Playwright Permissions
+      - name: Fix Playwright Permissions
+        run: chmod +x ./node_modules/.bin/playwright
+
+      # Install Playwright and Browsers
       - name: Install Playwright and Browsers
         run: ./node_modules/.bin/playwright install --with-deps
 
+      # Run Playwright tests
       - name: Run Playwright tests
         run: |
           CI=true ./node_modules/.bin/playwright test --reporter=html || echo "Tests failed, review logs."
 
+          # Always check if the report directory exists
           if [ -d playwright-report ]; then
             echo "artifact_exists=true" >> $GITHUB_ENV
           else
             echo "artifact_exists=false" >> $GITHUB_ENV
           fi
 
+      # Upload Test Artifacts
+      - name: Upload Test Artifacts
+        if: env.artifact_exists == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: AIT-Playwright-Test-Artifacts
+          path: test-results/
+
+      # Upload HTML Report
       - name: Upload HTML Report
         if: env.artifact_exists == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: AIT-Playwright-HTML-Report
           path: playwright-report/
-
-      - name: Upload Test Artifacts
-        if: env.artifact_exists == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: Playwright-Trace-Artifacts
-          path: playwright-report/*
