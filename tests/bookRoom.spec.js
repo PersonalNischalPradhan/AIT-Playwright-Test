@@ -3,10 +3,9 @@ const CommandPage = require('../pages/commandPage');
 const AdminPage = require('../pages/adminPage');
 const BookingPage = require('../pages/bookingPage');
 const bookingPageProperties = require('../properties/bookingPageProperties');
+let commandPage, adminPage, bookingPage;
 
 test.describe('Room Booking Suite', () => {
-  let commandPage, adminPage, bookingPage;
-
   test.beforeEach(async ({ page }) => {
     commandPage = new CommandPage(page);
     adminPage = new AdminPage(page, commandPage);

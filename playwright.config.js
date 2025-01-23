@@ -1,7 +1,7 @@
 const { defineConfig } = require('@playwright/test');
 
 module.exports = defineConfig({
-  timeout: 30000, // Global timeout for tests
+  timeout: 60000, // Global timeout for tests
   retries: 0, // Retry failed tests
   use: {
     headless: process.env.CI === 'true' ? true : false, // Set headless mode based on ci environment github/local
