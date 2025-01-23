@@ -1,4 +1,5 @@
 const bookingPageProperties = require('../properties/bookingPageProperties');
+
 class BookingPage {
   constructor(page, commandPage) {
     this.page = page;
@@ -6,8 +7,16 @@ class BookingPage {
   }
 
   // Navigate to the booking page
-  async navigateToBookingPage() {
+  async navigateToBookingPage(adminPage) {
     await this.page.goto(bookingPageProperties.urls.bookingPageUrl);
+    await adminPage.enableHacking(); 
+  }
+
+  // Book the first room
+  async bookFirstRoom() {
+    await this.page.locator(this.commandPage.bookThisRoomButton).first().click();
+    await this.page.locator(this.commandPage.confirmBookButton).scrollIntoViewIfNeeded();
+    await this.page.locator(this.commandPage.confirmBookButton).click({ force: true });
   }
 
   // Fill in booking details
@@ -18,16 +27,21 @@ class BookingPage {
     await this.page.fill(this.commandPage.bookingPhone, phone);
   }
 
-  // Submit the booking
-  async submitBooking() {
-    const submitButton = this.page.locator(this.commandPage.submitBookingButton);
-    await submitButton.scrollIntoViewIfNeeded();
-    await submitButton.click({ force: true });
-  }
-
   // Verify error messages
   async verifyErrorMessages() {
-    return await this.page.locator(this.commandPage.errorMessages).allTextContents();
+    await this.page.waitForTimeout(2000); 
+    const errorMessages = await this.page.locator(this.commandPage.errorMessages).allTextContents();
+    console.log('Error Messages:', errorMessages);
+    return errorMessages;
+  }
+
+  // Cancel the booking
+  async cancelBooking() {
+    const cancelButton = this.page.locator(this.commandPage.cancelBookButton);
+    const text = await cancelButton.textContent();
+    console.log('Cancel Button Text:', text);
+    await cancelButton.scrollIntoViewIfNeeded();
+    await cancelButton.click({ force: true });
   }
 }
 
