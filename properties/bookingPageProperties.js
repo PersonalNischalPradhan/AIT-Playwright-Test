@@ -1,6 +1,6 @@
 module.exports = {
   urls: {
-    bookingPageUrl: 'https://automationintesting.online', // Example URL, update accordingly
+    bookingPageUrl: 'https://automationintesting.online',
   },
   credentials: {
     username: 'user',

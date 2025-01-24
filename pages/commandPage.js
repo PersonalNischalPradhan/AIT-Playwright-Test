@@ -48,8 +48,6 @@ class CommandPage {
     this.bookThisRoomButton  = 'button:has-text("Book this room")';
     this.confirmBookButton ='button.book-room.btn-outline-primary';
     this.cancelBookButton ='button.book-room.btn-outline-danger';
-
-
     
     // Initialize pages
     this.loginPage = new LoginPage(page, this);

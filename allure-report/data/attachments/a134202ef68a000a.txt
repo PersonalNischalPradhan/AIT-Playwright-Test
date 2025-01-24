@@ -1,2 +1,0 @@
-Found 6 accessibility violations.
-Report generated: C:\Users\Admin\Desktop\lead quality engineer\PlaywrightWithGit\AIT-Playwright-Test\reports\Consolidated Accessibility Report-accessibility-report.html
