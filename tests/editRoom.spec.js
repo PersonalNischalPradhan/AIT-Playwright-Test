@@ -22,7 +22,7 @@ test.describe('Admin Room Management Suite', () => {
   });
 
   /* Test Case: Create a Room and Verify It
-   * Objective: Verify that a new room can be created and is visible on the admin dashboard.
+   * Verify that a new room can be created and is visible on the admin dashboard.
    */
   test('Create a room and verify it', async ({ page }) => {
     const adminPage = new AdminPage(page);
@@ -35,7 +35,7 @@ test.describe('Admin Room Management Suite', () => {
   });
 
   /* Test Case: Edit a Created Room and Verify Changes
-   * Objective: Edit the details of an existing room and verify that the changes are saved.
+   *  Verify that after editing the details of an existing room the changes are saved.
    */
   test('Edit a created room and verify changes', async ({ page }) => {
     const adminPage = new AdminPage(page);
