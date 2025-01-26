@@ -31,8 +31,8 @@ test.describe('Room Booking Suite', () => {
     const errorMessages = await bookingPage.verifyErrorMessages();
     console.log('Error Messages:', errorMessages);
     expect(errorMessages.length).toBeGreaterThan(0);
-    expect(errorMessages).toContain('must not be null');
-    expect(errorMessages).toContain('size must be between 11 and 21');
+    expect(errorMessages).toContain(bookingPageProperties.errorMessages.mustNotBeNull);
+    expect(errorMessages).toContain(bookingPageProperties.errorMessages.sizeConstraint);
   });
 
   /* Test Case: Book a Room and Cancel at the End

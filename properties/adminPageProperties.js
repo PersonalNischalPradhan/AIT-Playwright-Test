@@ -17,4 +17,11 @@ module.exports = {
     errorMessages: {
         roomCreationFailure: 'Room creation verification failed!',
     },
+    logoutButton: {
+        logout: 'logout',
+    },
+    borderValue: {
+        border: 'border',
+        redColourValue :'0.666667px solid rgb(255, 0, 0)',
+    },
 };

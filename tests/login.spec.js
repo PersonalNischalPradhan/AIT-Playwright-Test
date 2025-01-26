@@ -16,9 +16,9 @@ test.describe('Admin Login Suite', () => {
   });
 
   async function verifyLoginFailure(page) {
-    await expect(page.locator('.navbar')).not.toContainText('Logout');
-    await expect(page.locator(commandPage.usernameInput)).toHaveCSS('border', /rgb\(255,\s?0,\s?0\)/); // Matches red border
-    await expect(page.locator(commandPage.passwordInput)).toHaveCSS('border', /rgb\(255,\s?0,\s?0\)/); // Matches red border
+    await expect(page.locator('.navbar')).not.toContainText(adminPageProperties.logoutButton.logout);
+    await expect(page.locator(commandPage.usernameInput)).toHaveCSS(adminPageProperties.borderValue.border, adminPageProperties.borderValue.redColourValue); // Matches red border
+    await expect(page.locator(commandPage.passwordInput)).toHaveCSS(adminPageProperties.borderValue.border,  adminPageProperties.borderValue.redColourValue); // Matches red border
   }
 
   /* Test Case: Login with Valid Username and Valid Password
